@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "firstViewController.h"
+#import "secondViewController.h"
+#import "setupViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +19,50 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    UITabBarController *tabbar = [[UITabBarController alloc]init];
+    
+    firstViewController *f_vc = [firstViewController new];
+    f_vc.title = @"chat";
+    UINavigationController *f_nav = [[UINavigationController alloc]initWithRootViewController:f_vc];
+    UITabBarItem *itemOrderList = [[UITabBarItem alloc] initWithTitle:@"first" image:nil tag:2];
+    UIImage  *selectedOriginalImage = [UIImage imageNamed:@"tabbar_chat_sel"];
+    //    //声明这张图片用原图(别渲染)
+    selectedOriginalImage = [selectedOriginalImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    itemOrderList=[itemOrderList initWithTitle:@"chat" image:[UIImage imageNamed:@"tabbar_chat"] selectedImage:selectedOriginalImage];
+    
+    [itemOrderList setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor redColor],NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+    f_vc.tabBarItem = itemOrderList;
+    
+    
+    secondViewController *s_vc = [secondViewController new];
+    s_vc.title = @"shop";
+    UINavigationController *s_nav = [[UINavigationController alloc]initWithRootViewController:s_vc];
+    UITabBarItem *itemOrderList1 = [[UITabBarItem alloc] initWithTitle:@"first" image:nil tag:2];
+    UIImage  *selectedOriginalImage1 = [UIImage imageNamed:@"tabbar_shop_sel"];
+    //    //声明这张图片用原图(别渲染)
+    selectedOriginalImage1 = [selectedOriginalImage1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    itemOrderList1=[itemOrderList1 initWithTitle:@"shop" image:[UIImage imageNamed:@"tabbar_shop"] selectedImage:selectedOriginalImage1];
+    
+    [itemOrderList1 setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor redColor],NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+    s_vc.tabBarItem = itemOrderList1;
+    
+    
+    setupViewController *st_vc = [setupViewController new];
+    st_vc.title = @"setup";
+    UINavigationController *st_nav = [[UINavigationController alloc]initWithRootViewController:st_vc];
+    UITabBarItem *itemOrderList2 = [[UITabBarItem alloc] initWithTitle:@"first" image:nil tag:2];
+    UIImage  *selectedOriginalImage2 = [UIImage imageNamed:@"tabbar_setp"];
+    //    //声明这张图片用原图(别渲染)
+    selectedOriginalImage2 = [selectedOriginalImage2 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    itemOrderList2=[itemOrderList2 initWithTitle:@"setup" image:[UIImage imageNamed:@"tabbar_setp_sel"] selectedImage:selectedOriginalImage2];
+    
+    [itemOrderList2 setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor redColor],NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+    st_vc.tabBarItem = itemOrderList2;
+    
+    tabbar.viewControllers = @[f_nav, s_nav, st_nav];
+    self.window.rootViewController = tabbar;
+    
     return YES;
 }
 
@@ -45,54 +91,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    // Saves changes in the application's managed object context before the application terminates.
-    [self saveContext];
 }
 
-
-#pragma mark - Core Data stack
-
-@synthesize persistentContainer = _persistentContainer;
-
-- (NSPersistentContainer *)persistentContainer {
-    // The persistent container for the application. This implementation creates and returns a container, having loaded the store for the application to it.
-    @synchronized (self) {
-        if (_persistentContainer == nil) {
-            _persistentContainer = [[NSPersistentContainer alloc] initWithName:@"ChangeUI"];
-            [_persistentContainer loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription *storeDescription, NSError *error) {
-                if (error != nil) {
-                    // Replace this implementation with code to handle the error appropriately.
-                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    
-                    /*
-                     Typical reasons for an error here include:
-                     * The parent directory does not exist, cannot be created, or disallows writing.
-                     * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                     * The device is out of space.
-                     * The store could not be migrated to the current model version.
-                     Check the error message to determine what the actual problem was.
-                    */
-                    NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-                    abort();
-                }
-            }];
-        }
-    }
-    
-    return _persistentContainer;
-}
-
-#pragma mark - Core Data Saving support
-
-- (void)saveContext {
-    NSManagedObjectContext *context = self.persistentContainer.viewContext;
-    NSError *error = nil;
-    if ([context hasChanges] && ![context save:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-        abort();
-    }
-}
 
 @end
